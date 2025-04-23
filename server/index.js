@@ -5,6 +5,7 @@ const os = require("os");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
+const chokidar = require("chokidar");
 
 const app = express();
 const httpServer = createServer(app);
@@ -25,6 +26,10 @@ const io = new Server(httpServer, {
   },
 });
 
+chokidar.watch('./').on('all', (event, path) => {
+  io.emit('file:change', { event, path });
+});
+
 var pty = require("node-pty");
 var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 
@@ -32,7 +37,7 @@ var ptyProcess = pty.spawn(shell, [], {
   name: "xterm-color",
   cols: 80,
   rows: 30,
-  cwd: process.env.HOME,
+  cwd: "./",
   env: process.env,
 });
 
@@ -65,7 +70,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/files", async (req, res) => {
-  const fileTree = await generateFileTree("./");
+  const fileTree = await generateFileTree("./user");
   res.json({ tree: fileTree });
 });
 

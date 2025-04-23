@@ -1,8 +1,9 @@
 * {
   margin: 0;
   padding: 0;
-  border: 0.2px solid red;
+  /* border: 0.2px solid red; */
   scrollbar-width: thin;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .playground-container {
@@ -47,4 +48,9 @@
   cursor: pointer;
   color: #e03131;
   font-weight: bold;
+}
+
+li {
+  list-style-type: none;
+  line-height: 20px;
 }

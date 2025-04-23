@@ -1,36 +1,41 @@
 import "./App.css";
 import Terminal from "./components/terminal";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { useEffect, useState } from "react";
+import FileTree from "./components/tree";
+import socket from "./socket";
 
 const App = () => {
-  //   useEffect(() => {
-  //     const originalFetch = window.fetch;
 
-  //     const interceptRequests = () => {
-  //       console.log('Monitoring network requests...');
+    const [fileTree, setFileTree] = useState({})
+    const getFileTree = async () =>{
+      const response = await fetch('http://localhost:3000/files')
+      const result = await response.json()
+      setFileTree(result)
+    }
 
-  //       window.fetch = async (...args) => {
-  //         try {
-  //           const response = await originalFetch(...args);
-  //           return response;
-  //         } catch (error) {
-  //           console.error('Network request failed:', error);
-  //           throw error;
-  //         }
-  //       };
-  //     };
+    useEffect(() => {
+      getFileTree()
+    }, [])
 
-  //     interceptRequests();
+    useEffect(() => {
+socket.on('file:change', (data) => {
+    getFileTree()
+})
+return () => {
+  socket.off('file:change')
+}
+    }, [])
 
-  //     return () => {
-  //       window.fetch = originalFetch;
-  //     };
-  //   }, []);
+
+
   return (
     <ErrorBoundary>
       <div className="playground-container">
         <div className="editor-container">
-          <div className="files"></div>
+          <div className="files">
+            {fileTree && <FileTree tree={fileTree} />}
+          </div>
           <div className="editor"></div>
         </div>
         <div className="terminal-container">
@@ -42,3 +47,5 @@ const App = () => {
 };
 
 export default App;
+
+
