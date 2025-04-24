@@ -83,7 +83,7 @@ const Terminal = () => {
 
           // Regular input
           currentLine += data;
-          term.write(data);
+          term.write( data);
         } catch (error) {
           console.error("Terminal data handling error:", error);
           term.write("\r\nError processing input\r\n$ ");

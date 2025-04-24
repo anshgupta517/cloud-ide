@@ -15,10 +15,30 @@
   overflow: hidden;
 }
 
+.files {
+  width: 200px;
+  height: auto;
+  background-color: #88a0cb;
+  color: #fff;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #666 #1e1e1e;
+}
+.editor{
+  height: auto;
+}
+
+
 .editor-container {
   flex: 1;
-  min-height: 0;
+  height: 70%;
   display: flex;
+  overflow: hidden;
+}
+
+.terminal-container{
+  height: 30%;
+
 }
 
 .error-boundary {

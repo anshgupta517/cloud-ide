@@ -1,27 +1,39 @@
-const FileTreeNode = ({ filename, nodes }) => {
-   const isDirectory = nodes && Object.keys(nodes).length > 0;
+const FileTreeNode = ({ filename, nodes,path ,onselect }) => {
+  
+  const isDirectory = nodes && (Object.keys(nodes).length > 0);
+   console.log(nodes)
+   const isTreeKeyword = filename === 'tree'
+   
   
     
   
     return (
-      <div style={{ marginLeft: "10px" }}>
-       <p style={{ color: isDirectory ? "yellow" : "black" }}> {filename}</p>
-       {nodes && <ul>
-          {Object.keys(nodes).map((child) => (
-            <li key={child}>
-              <FileTreeNode filename={child} nodes={nodes[child]} />
+      <div onClick={(e)=>{
+        e.stopPropagation()
+        if(isDirectory){return;}
+        onselect(path)
+      }} style={{ marginLeft: "10px" }}>
+       <p style={{ color: isDirectory ? "yellow" : "black" , display: isTreeKeyword ? "none" : "block"}}> {filename}</p>
+  {nodes && <ul>
+
+          {Object.keys(nodes).map((child) => {
+            return(
+         <li key={child}>
+              <FileTreeNode onselect={onselect} filename={child} path={path + '/' + child} nodes={nodes[child]} />
             </li>
-          ))}
+)})}
         </ul>}
       </div>
     );
   };
 
-const FileTree = ({tree}) => {
+const FileTree = ({tree,onselect}) => {
     // console.log(tree)
     return(
         <FileTreeNode
          filename= '/'
+         onselect={onselect}
+         path = ''
          nodes = {tree}
          />
     )

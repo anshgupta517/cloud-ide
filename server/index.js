@@ -52,8 +52,20 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log("User disconnected");
+  console.log("User disconnected");
   });
+
+  socket.on("file:change", async({filepath, content}) => {
+    console.log(filepath, content);
+    const safePath = path.join(__dirname, 'user', filepath);
+    try {
+      await fs.promises.writeFile(safePath, content);
+    } catch (error) {
+      console.error("Error writing file:", error);
+      io.emit("file:error", { message: "Failed to write file", error: error.message });
+    }
+  });
+
 });
 
 ptyProcess.on("data", (data) => {
