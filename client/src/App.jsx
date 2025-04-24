@@ -62,7 +62,6 @@ const App = () => {
         console.log("Disconnected from socket server");
       });
 
-      // Clean up the socket connection on component unmount
       return () => {
         socket.off("connect");
         socket.off("disconnect");
