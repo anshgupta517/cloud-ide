@@ -29,19 +29,16 @@ Before you begin, ensure you have the following installed:
     cd cloud-ide
     ```
 
-2.  **Install dependencies:**
+2.  **Install dependencies & run server:**
 
     ```bash
-    npm install
+    cd client && npm install && npm run dev
+    cd ../server && npm install && nodemon index.js
     ```
 
-3.  **Run the development server:**
 
-    ```bash
-    npm start
-    ```
 
-    This will typically start the application on `http://localhost:3000` (or a similar port).  Check the console output for the exact address.
+    This will typically start the application on `http://localhost:5173` (or a similar port).  Check the console output for the exact address.
 
 ### Usage
 
@@ -57,42 +54,42 @@ Once the development server is running, open your web browser and navigate to th
 cloud-ide/
 ├── README.md               # This file
 ├── client/                 # Frontend code (React, Vite)
-│   ├── README.md           # Client-specific README
-│   ├── eslint.config.js    # ESLint configuration
-│   ├── index.html          # HTML entry point
-│   ├── package-lock.json   # Client dependencies lockfile
-│   ├── package.json        # Client dependencies and scripts
-│   ├── vite.config.js      # Vite configuration
-│   ├── .gitignore          # Client-specific ignored files
-│   ├── public/             # Static assets
-│   └── src/                # Client source code
-│       ├── App.css           # Main application styles
-│       ├── App.jsx           # Main application component
-│       ├── index.css         # Global styles
-│       ├── main.jsx          # Entry point for React
-│       ├── socket.js         # Socket.IO connection logic
-│       ├── components/       # Reusable React components
-│       │   ├── ErrorBoundary.jsx # Error boundary component
-│       │   ├── terminal.jsx      # Terminal component
-│       │   └── tree.jsx          # File tree component
-│       ├── css/              # Component-specific styles
-│       │   └── terminal.css    # Terminal styles
-│       └── util/             # Utility functions
-│           └── filepath.jsx    # Filepath utility functions
-└── server/                 # Backend code (Node.js, Express)
-    ├── index.js            # Server entry point
-    ├── package-lock.json   # Server dependencies lockfile
-    ├── package.json        # Server dependencies and scripts
-    ├── .gitignore          # Server-specific ignored files
-    └── user/                # User-related data (example)
-        ├── h               # Example user directory
-        └── package.json    # User-specific dependencies (if any)
+│   ├── README.md          
+│   ├── eslint.config.js    
+│   ├── index.html          
+│   ├── package-lock.json   
+│   ├── package.json        
+│   ├── vite.config.js      
+│   ├── .gitignore          
+│   ├── public/             
+│   └── src/                
+│       ├── App.css           
+│       ├── App.jsx          
+│       ├── index.css        
+│       ├── main.jsx    
+│       ├── socket.js   
+│       ├── components/ 
+│       │   ├── ErrorBoundary.jsx 
+│       │   ├── terminal.jsx      
+│       │   └── tree.jsx
+│       ├── css/    
+│       │   └── terminal.css   
+│       └── util/             
+│           └── filepath.jsx  
+└── server/
+    ├── index.js        
+    ├── package-lock.json  
+    ├── package.json  
+    ├── .gitignore
+    └── user/               
+        ├── h               
+        └── package.json    
 ```
 
 **Explanation of Key Directories:**
 
 *   **`client/`:**  Contains the frontend code, built with React and Vite.  It includes components for the terminal, file tree, and error handling.  `socket.js` handles communication with the backend server.
-*   **`server/`:** Contains the backend code, built with Node.js and Express.  `index.js` is the main server file. The `user/` directory seems to be a placeholder for user-specific data or configurations.
+*   **`server/`:** Contains the backend code, built with Node.js and Express.  `index.js` is the main server file. 
 
 ### Technologies Used
 
