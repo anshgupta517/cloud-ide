@@ -1,8 +1,7 @@
 const FileTreeNode = ({ filename, nodes,path ,onselect }) => {
   
   const isDirectory = nodes && (Object.keys(nodes).length > 0);
-   console.log(nodes)
-   const isTreeKeyword = filename === 'tree'
+  const isTreeKeyword = filename === 'tree'
    
   
     
@@ -13,8 +12,8 @@ const FileTreeNode = ({ filename, nodes,path ,onselect }) => {
         if(isDirectory){return;}
         onselect(path)
       }} style={{ marginLeft: "10px" }}>
-       <p style={{ color: isDirectory ? "yellow" : "black" , display: isTreeKeyword ? "none" : "block"}}> {filename}</p>
-  {nodes && <ul>
+       <p style={{ color: isDirectory ? "yellow" : "white" , display: isTreeKeyword ? "none" : "block"}}> {filename}</p>
+  {nodes && filename !== 'node_modules' && <ul>
 
           {Object.keys(nodes).map((child) => {
             return(

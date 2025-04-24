@@ -1,7 +1,7 @@
 import "./App.css";
 import Terminal from "./components/terminal";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import FileTree from "./components/tree";
 import socket from "./socket";
 import AceEditor from 'react-ace'
@@ -15,8 +15,10 @@ import "ace-builds/src-noconflict/ext-language_tools"
 const App = () => {
 
     const [fileTree, setFileTree] = useState({});
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState('');
     const [code, setCode] = useState('');
+    const [content,setContent] = useState('')
+
     const fetchFileTree = async () => {
       try {
         const response = await fetch('http://localhost:3000/files');
@@ -34,19 +36,13 @@ const App = () => {
       fetchFileTree();
     }, []);
 
-    useEffect(() => {
-      const handleFileChange = () => {
-        fetchFileTree();
-      };
-
-      socket.on('file:change', handleFileChange);
-      return () => {
-        socket.off('file:change', handleFileChange);
-      };
-    }, []);
+    const handleSelectedFile = async (path) => {
+      await setSelectedFile(path);
+      console.log("Selected file:", selectedFile);
+      fetchFileContent(path);
+    };
 
     
-
     useEffect(() => {
       if(selectedFile && code){
       console.log(selectedFile, code)
@@ -57,13 +53,49 @@ const App = () => {
     }
     ,[code])
 
+    useEffect(() => {
+      socket.on("connect", () => {
+        console.log("Connected to socket server");
+      });
+
+      socket.on("disconnect", () => {
+        console.log("Disconnected from socket server");
+      });
+
+      // Clean up the socket connection on component unmount
+      return () => {
+        socket.off("connect");
+        socket.off("disconnect");
+      };
+    }, []);
+
+   
+    
+      const fetchFileContent = async (path) => {
+        console.log("start");
+        console.log(selectedFile)
+        
+        try {
+          const response = await fetch(`http://localhost:3000/file-content?path=${path.replaceAll("/tree", "")}`);
+          console.log(response)
+          if (!response.ok) {
+            throw new Error('Failed to fetch file content');
+          }
+          const result = await response.json();
+          console.log("end:" + result.content);
+          setCode(result.content);
+        } catch (error) {
+          console.error('Error fetching file content:', error);
+        }
+      };
+
 
   return (
     <ErrorBoundary>
       <div className="playground-container">
         <div className="editor-container">
           <div className="files">
-            {fileTree && <FileTree  style ={{ cursor: "pointer"}} onselect={(path) => {setSelectedFile(path)}} tree={fileTree} />}
+            {fileTree && <FileTree  style ={{ cursor: "pointer"}} onselect={(path) => {handleSelectedFile(path); console.log("Selected file:", path)}} tree={fileTree} />}
           </div>
           <div className="editor">
             {selectedFile && <p style={{ color: "yellow" }}>{selectedFile.replaceAll("/tree/", ">")}</p>}

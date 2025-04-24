@@ -4,7 +4,7 @@ const { Server } = require("socket.io");
 const os = require("os");
 const cors = require("cors");
 const fs = require("fs");
-const path = require("path");
+const pathModule = require("path");
 const chokidar = require("chokidar");
 
 const app = express();
@@ -56,8 +56,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("file:change", async({filepath, content}) => {
-    console.log(filepath, content);
-    const safePath = path.join(__dirname, 'user', filepath);
+    const safePath = pathModule.join(__dirname,  filepath);
+    console.log(safePath)
     try {
       await fs.promises.writeFile(safePath, content);
     } catch (error) {
@@ -82,8 +82,27 @@ app.get("/", (req, res) => {
 });
 
 app.get("/files", async (req, res) => {
-  const fileTree = await generateFileTree("./user");
+  const fileTree = await generateFileTree("./");
   res.json({ tree: fileTree });
+});
+
+app.get("/file-content", async (req, res) => {
+  console.log("file-content");
+  const filePath = req.query.path;
+  console.log("Requested file path:", filePath);
+  const safePath = pathModule.join(__dirname,  filePath);
+  
+  try {
+    const stat = await fs.promises.stat(safePath);
+    if (stat.isDirectory()) {
+      return res.status(400).json({ message: 'Requested path is a directory, not a file.' });
+    }
+    const content = await fs.promises.readFile(safePath, 'utf-8');
+    return res.json({ content });
+  } catch (error) {
+    console.error('Error reading file:', error);
+    return res.status(500).json({ message: 'Failed to read file', error: error.message });
+  }
 });
 
 const PORT = process.env.PORT || 3000;
@@ -103,7 +122,7 @@ async function buildTree(currentDirectory, currentTree) {
     const files = await fs.promises.readdir(currentDirectory);
 
     for (const file of files) {
-      const filepath = path.join(currentDirectory, file);
+      const filepath = pathModule.join(currentDirectory, file);
       const stat = await fs.promises.stat(filepath);
 
       if (stat.isDirectory()) {
