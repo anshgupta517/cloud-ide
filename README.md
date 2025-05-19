@@ -48,44 +48,6 @@ Once the development server is running, open your web browser and navigate to th
 *   Run commands in the integrated terminal.
 *   Navigate your project's file system.
 
-### Project Structure
-
-```
-cloud-ide/
-├── README.md               # This file
-├── client/                 # Frontend code (React, Vite)
-│   ├── README.md          
-│   ├── eslint.config.js    
-│   ├── index.html          
-│   ├── package-lock.json   
-│   ├── package.json        
-│   ├── vite.config.js      
-│   ├── .gitignore          
-│   ├── public/             
-│   └── src/                
-│       ├── App.css           
-│       ├── App.jsx          
-│       ├── index.css        
-│       ├── main.jsx    
-│       ├── socket.js   
-│       ├── components/ 
-│       │   ├── ErrorBoundary.jsx 
-│       │   ├── terminal.jsx      
-│       │   └── tree.jsx
-│       ├── css/    
-│       │   └── terminal.css   
-│       └── util/             
-│           └── filepath.jsx  
-└── server/
-    ├── index.js        
-    ├── package-lock.json  
-    ├── package.json  
-    ├── .gitignore
-    └── user/               
-        ├── h               
-        └── package.json    
-```
-
 **Explanation of Key Directories:**
 
 *   **`client/`:**  Contains the frontend code, built with React and Vite.  It includes components for the terminal, file tree, and error handling.  `socket.js` handles communication with the backend server.
