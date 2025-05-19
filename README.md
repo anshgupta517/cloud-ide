@@ -1,7 +1,7 @@
 
 # cloud-ide
 
-A lightweight open-source IDE viewable from web browsers. ☁️💻 It will feature essential coding functionalities, such as an editor, terminal, and file system, allowing code development at ease, all without the need for local installations. 🎉
+A lightweight open-source IDE viewable from web browsers. ☁️💻 It will feature essential coding functionalities, such as an editor, terminal, and file system, allowing code development at ease. 🎉
 
 ![Screenshot From 2025-04-24 23-15-09](https://github.com/user-attachments/assets/bc0771d6-7f16-4f7b-9bb1-908350e56a45)
 
